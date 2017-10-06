@@ -29,7 +29,15 @@ public class TemporaryFolder {
         }
     }
 
-    void cleanUp() {
+    void cleanUpAfterEach() {
+        try {
+            Files.walkFileTree(rootFolder, new DeleteAllButRootVisitor(rootFolder));
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
+    }
+
+    void cleanUpAfterAll() {
         try {
             Files.walkFileTree(rootFolder, new DeleteAllVisitor());
         } catch (IOException ioe) {
@@ -37,7 +45,30 @@ public class TemporaryFolder {
         }
     }
 
+    private static class DeleteAllButRootVisitor extends SimpleFileVisitor<Path> {
+
+        Path rootFolder;
+
+        public DeleteAllButRootVisitor(Path rootFolder) {
+           this.rootFolder = rootFolder;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
+            Files.delete(file);
+            return CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path directory, IOException exception) throws IOException {
+            if(directory != rootFolder)
+                Files.delete(directory);
+            return CONTINUE;
+        }
+    }
+
     private static class DeleteAllVisitor extends SimpleFileVisitor<Path> {
+
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
             Files.delete(file);

@@ -1,6 +1,7 @@
 package com.codeaffine.junit5;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -12,7 +13,7 @@ public class TemporaryFolderFieldTest {
 
     TemporaryFolder tempFolderField;
 
-    @Test
+    @RepeatedTest(3)
     public void useTempFolderField() throws IOException {
         Path file = tempFolderField.newFile("foo");
 
