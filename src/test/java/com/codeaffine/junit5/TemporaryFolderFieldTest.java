@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 @ExtendWith(TemporaryFolderExtension.class)
 public class TemporaryFolderFieldTest {
@@ -14,8 +14,8 @@ public class TemporaryFolderFieldTest {
 
     @Test
     public void useTempFolderField() throws IOException {
-        File file = tempFolderField.newFile("foo");
+        Path file = tempFolderField.newFile("foo");
 
-        Assertions.assertTrue(file.exists());
+        Assertions.assertTrue(file.toFile().exists());
     }
 }

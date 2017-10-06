@@ -4,8 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(TemporaryFolderExtension.class)
 public class TemporaryFolderTest {
@@ -14,12 +16,17 @@ public class TemporaryFolderTest {
 
     @Test
     public void useTempFolder(TemporaryFolder tempFolderParameter) throws IOException {
-        File file1 = tempFolderField.newFile("foo");
-        File file2 = tempFolderParameter.newFile("foo");
+        Path file1 = tempFolderField.newFile("foo");
+        Path file2 = tempFolderParameter.newFile("foo");
 
         Assertions.assertNotSame(tempFolderField, tempFolderParameter);
-        Assertions.assertTrue(file1.exists());
-        Assertions.assertTrue(file2.exists());
+        Assertions.assertTrue(file1.toFile().exists());
+        Assertions.assertTrue(file2.toFile().exists());
         Assertions.assertNotEquals(file1, file2);
+    }
+
+    @Test
+    public void shouldGetValidPath() {
+        assertNotNull(tempFolderField.toPath());
     }
 }

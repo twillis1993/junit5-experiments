@@ -1,37 +1,37 @@
 package com.codeaffine.junit5;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class TemporaryFolder {
-    private File rootFolder;
+    private Path rootFolder;
 
-    public File newFile(String name) throws IOException {
-        File result = new File(rootFolder, name);
-        result.createNewFile();
-        return result;
+    public Path newFile(String name) throws IOException {
+        return Files.createFile(Paths.get(rootFolder.toString(), name));
+    }
+
+    public Path toPath() {
+        return rootFolder;
     }
 
     void prepare() {
         try {
-            rootFolder = File.createTempFile("junit5-", ".tmp");
+            // TODO why do this?
+            rootFolder = Files.createTempFile("junit5-", ".tmp");
+            Files.delete(rootFolder);
+
+            Files.createDirectory(rootFolder);
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
-        rootFolder.delete();
-        rootFolder.mkdir();
     }
 
     void cleanUp() {
         try {
-            Files.walkFileTree(rootFolder.toPath(), new DeleteAllVisitor());
+            Files.walkFileTree(rootFolder, new DeleteAllVisitor());
         } catch (IOException ioe) {
             throw new RuntimeException(ioe);
         }
