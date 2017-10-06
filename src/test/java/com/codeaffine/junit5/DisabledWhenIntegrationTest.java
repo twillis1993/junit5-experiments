@@ -5,13 +5,6 @@ import org.junit.jupiter.api.Test;
 
 public class DisabledWhenIntegrationTest {
 
-    class MemberClassCondition implements DisabledWhenCondition {
-        @Override
-        public boolean isSatisfied() {
-            return true;
-        }
-    }
-
     @Test
     @DisabledWhen(AlwaysDisabled.class)
     public void shouldNeverBeExecuted() {
