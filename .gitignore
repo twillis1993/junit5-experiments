@@ -3,3 +3,13 @@ target/
 Thumbs.db
 hs_err_pid*.log
 .DS_Store
+build/
+out/
+*.iml
+.idea/workspace.xml
+.idea/gradle.xml
+.idea/tasks.xml
+.idea/libraries/*.xml
+junit5-experiments.ipr
+junit5-experiments.iws
+.gradle/
