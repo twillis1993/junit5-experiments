@@ -13,10 +13,24 @@ public class TemporaryFolderFieldTest {
 
     TemporaryFolder tempFolderField;
 
-    @RepeatedTest(3)
+    @RepeatedTest(10)
     public void useTempFolderField() throws IOException {
-        Path file = tempFolderField.newFile("foo");
+        Path file1 = tempFolderField.newFile("foo");
+        Path file2 = tempFolderField.newFile("bar");
 
-        Assertions.assertTrue(file.toFile().exists());
+        Assertions.assertTrue(file1.toFile().exists());
+        Assertions.assertTrue(file2.toFile().exists());
+        Assertions.assertEquals(tempFolderField.toPath().toFile().listFiles().length, 2);
     }
+
+    @RepeatedTest(10)
+    public void useTempFolderFieldAgain() throws IOException {
+        Path file1 = tempFolderField.newFile("foo");
+        Path file2 = tempFolderField.newFile("bar");
+
+        Assertions.assertTrue(file1.toFile().exists());
+        Assertions.assertTrue(file2.toFile().exists());
+        Assertions.assertEquals(tempFolderField.toPath().toFile().listFiles().length, 2);
+    }
+
 }
