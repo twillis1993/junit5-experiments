@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Disables annotated tests when run on my home machine.
+ * Disables annotated tests when run on home machine.
  */
 
 public class DisabledWhenAtHome implements DisabledWhenCondition {
