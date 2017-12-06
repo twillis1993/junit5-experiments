@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import static java.util.Arrays.stream;
 
-public class TemporaryFolderExtension implements AfterEachCallback, TestInstancePostProcessor, ParameterResolver {
+public class TemporaryFolderExtension implements AfterEachCallback, AfterAllCallback, TestInstancePostProcessor, ParameterResolver {
 
     private final Collection<TemporaryFolder> tempFolders;
 
@@ -18,8 +18,13 @@ public class TemporaryFolderExtension implements AfterEachCallback, TestInstance
     }
 
     @Override
-    public void afterEach(ExtensionContext context) throws IOException {
-        tempFolders.forEach(TemporaryFolder::cleanUp);
+    public void afterEach(ExtensionContext context) {
+       tempFolders.forEach(TemporaryFolder::cleanUpAfterEach);
+    }
+
+    @Override
+    public void afterAll(ExtensionContext context) throws IOException {
+        tempFolders.forEach(TemporaryFolder::cleanUpAfterAll);
     }
 
     @Override
