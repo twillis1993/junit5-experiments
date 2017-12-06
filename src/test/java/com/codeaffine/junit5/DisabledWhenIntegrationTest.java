@@ -16,4 +16,10 @@ public class DisabledWhenIntegrationTest {
     public void shouldAlsoNeverBeExecuted() {
         Assertions.fail("Should not be executed");
     }
+
+    @Test
+    @DisabledWhen(DisabledWhenAtHome.class)
+    public void shouldNotBeExecutedAtHome() {
+        Assertions.fail("Should not be executed at home");
+    }
 }
